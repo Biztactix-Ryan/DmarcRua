@@ -80,41 +80,13 @@
 			<xs:element name="v" type="xs:string" minOccurs="0"/>
 		</xs:all>
 	</xs:complexType>
-<xs:complexType name="PolicyPublishedType">
-  <xs:all>
-    <xs:element name="domain" type="xs:string"/>
-    <!-- The DKIM alignment mode. -->
-    <xs:element name="adkim" type="AlignmentType" minOccurs="0"/>
-    <!-- The SPF alignment mode. -->
-    <xs:element name="aspf" type="AlignmentType" minOccurs="0"/>
-    <!-- The policy to apply to messages from the domain. -->
-    <xs:element name="p" type="DispositionType"/>
-	<!-- The handling policy for non-existent subdomains-->
-	<xs:element name="np" type="DispositionType" minOccurs="0"/>
-    <!-- The policy to apply to messages from subdomains. -->
-    <xs:element name="sp" type="DispositionType" minOccurs="0"/>
-    <!-- The percent of messages to which policy applies. -->
-    <xs:element name="pct" type="xs:integer"/>
-    <!-- Defines the error reporting policy". -->
-    <xs:element name="fo" type="xs:string" minOccurs="0"/>
-    <!-- Defines the time in seconds between reports requested. -->
-    <xs:element name="ri" type="xs:integer" minOccurs="0"/>
-	<!-- Defines the Reporting Formats (Unknown Data Type) -->
-	<xs:element name="rf" type="xs:string" minOccurs="0"/>
-	<!-- Defines the Reporting URI for Aggregate Data. -->
-	<xs:element name="rua" type="xs:string" minOccurs="0"/>
-	<!-- Defines the Reporting URI for Failure Data. -->
-	<xs:element name="ruf" type="xs:string" minOccurs="0"/>
-	<!-- Defines the Reporting URI for Failure Data. -->
-	<xs:element name="v" type="xs:string" minOccurs="0"/>
-  </xs:all>
-</xs:complexType>
 
 	<!-- The DMARC-aligned authentication result. -->
 	<xs:simpleType name="DMARCResultType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="pass"/>
 			<xs:enumeration value="fail"/>
+			<xs:enumeration value=""/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -169,9 +141,9 @@ trusted_forwarder:  Message authentication failure was anticipated by
 	<!-- Taking into account everything else in the record, the results of applying DMARC. -->
 	<xs:complexType name="PolicyEvaluatedType">
 		<xs:sequence>
-			<xs:element name="disposition" type="DispositionType"/>
-			<xs:element name="dkim" type="DMARCResultType"/>
-			<xs:element name="spf" type="DMARCResultType"/>
+			<xs:element name="disposition" type="DispositionType" minOccurs="0" />
+			<xs:element name="dkim" type="DMARCResultType" minOccurs="0" />
+			<xs:element name="spf" type="DMARCResultType" minOccurs="0" />
 			<xs:element name="reason" type="PolicyOverrideReason" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -179,7 +151,7 @@ trusted_forwarder:  Message authentication failure was anticipated by
 	<xs:complexType name="RowType">
 		<xs:all>
 			<!-- The connecting IP. -->
-			<xs:element name="source_ip" type="xs:string"/>
+			<xs:element name="source_ip" type="xs:string" minOccurs="0" />
 			<!-- The number of matching messages -->
 			<xs:element name="count" type="xs:integer"/>
 			<!-- The DMARC disposition applying to matching messages. -->
@@ -196,7 +168,7 @@ trusted_forwarder:  Message authentication failure was anticipated by
 			<!-- The envelope recipient domain. -->
 			<xs:element name="envelope_to" type="xs:string" minOccurs="0"/>
 			<!-- The payload From domain. -->
-			<xs:element name="header_from" type="xs:string" minOccurs="1"/>
+			<xs:element name="header_from" type="xs:string" minOccurs="0"/>
 			<!-- The envelope from domain. -->
 			<xs:element name="envelope_from" type="xs:string" minOccurs="0"/>
 		</xs:all>
@@ -212,6 +184,7 @@ trusted_forwarder:  Message authentication failure was anticipated by
 			<xs:enumeration value="neutral"/>
 			<xs:enumeration value="temperror"/>
 			<xs:enumeration value="permerror"/>
+			<xs:enumeration value=""/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -240,6 +213,7 @@ trusted_forwarder:  Message authentication failure was anticipated by
 			<xs:enumeration value="temperror"/>
 			<!-- "PermError" commonly implemented as "error" -->
 			<xs:enumeration value="permerror"/>
+			<xs:enumeration value=""/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -250,9 +224,9 @@ trusted_forwarder:  Message authentication failure was anticipated by
 	<xs:complexType name="SPFAuthResultType">
 		<xs:all>
 			<!-- The envelope From domain. -->
-			<xs:element name="domain" type="xs:string" minOccurs="1"/>
+			<xs:element name="domain" type="xs:string" minOccurs="0"/>
 			<!-- The SPF verification result -->
-			<xs:element name="result" type="SPFResultType" minOccurs="1"/>
+			<xs:element name="result" type="SPFResultType" minOccurs="0"/>
 			<!-- The scope of evaluation -->
 			<xs:element name="scope" type="xs:string" minOccurs="0"/>
 		</xs:all>
@@ -264,7 +238,7 @@ trusted_forwarder:  Message authentication failure was anticipated by
 			<!-- There may be no DKIM signatures, or multiple DKIM signatures. -->
 			<xs:element name="dkim" type="DKIMAuthResultType" minOccurs="0" maxOccurs="unbounded"/>
 			<!-- There will always be at least one SPF result. -->
-			<xs:element name="spf" type="SPFAuthResultType" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="spf" type="SPFAuthResultType" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:choice>
 	</xs:complexType>
 

@@ -31,7 +31,8 @@ namespace DmarcRua
     [Serializable]
     [XmlType(AnonymousType = true, Namespace = "http://dmarc.org/dmarc-xml/0.1")]
     [XmlRoot("feedback", IsNullable = false)]
-    public class Feedback {
+    public class Feedback
+    {
         [XmlElement("report_metadata", Form = XmlSchemaForm.Unqualified)]
         public ReportMetadataType ReportMetadata { get; set; }
 
@@ -40,14 +41,15 @@ namespace DmarcRua
 
         [XmlElement("record", Form = XmlSchemaForm.Unqualified)]
         public RecordType[] Record { get; set; }
-        
+
         [XmlElement("version", Form = XmlSchemaForm.Unqualified)]
         public string Version { get; set; }
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public class ReportMetadataType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public class ReportMetadataType
+    {
         [XmlElement("org_name", Form = XmlSchemaForm.Unqualified)]
         public string OrgName { get; set; }
 
@@ -68,8 +70,9 @@ namespace DmarcRua
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public class DateRangeType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public class DateRangeType
+    {
         [XmlElement("begin", Form = XmlSchemaForm.Unqualified)]
         public long Begin { get; set; }
 
@@ -78,33 +81,37 @@ namespace DmarcRua
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public class SpfAuthResultType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public class SpfAuthResultType
+    {
         [XmlElement("domain", Form = XmlSchemaForm.Unqualified)]
         public string Domain { get; set; }
 
         [XmlElement("result", Form = XmlSchemaForm.Unqualified)]
         public SpfResultType Result { get; set; }
-        
+
         [XmlElement("scope", Form = XmlSchemaForm.Unqualified)]
         public string Scope { get; set; }
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public enum SpfResultType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public enum SpfResultType
+    {
         none,
         neutral,
         pass,
         fail,
         softfail,
         temperror,
-        permerror
+        permerror,
+        [XmlEnum("")] Default = none
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public class DKIMAuthResultType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public class DKIMAuthResultType
+    {
         [XmlElement("domain", Form = XmlSchemaForm.Unqualified)]
         public string Domain { get; set; }
 
@@ -113,26 +120,29 @@ namespace DmarcRua
 
         [XmlElement("human_result", Form = XmlSchemaForm.Unqualified)]
         public string HumanResult { get; set; }
-        
+
         [XmlElement("selector", Form = XmlSchemaForm.Unqualified)]
         public string Selector { get; set; }
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public enum DKIMResultType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public enum DKIMResultType
+    {
         none,
         pass,
         fail,
         policy,
         neutral,
         temperror,
-        permerror
+        permerror,
+        [XmlEnum("")] Default = none
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public class AuthResultType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public class AuthResultType
+    {
         [XmlElement("dkim", Form = XmlSchemaForm.Unqualified)]
         public DKIMAuthResultType[] Dkim { get; set; }
 
@@ -141,21 +151,23 @@ namespace DmarcRua
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public class IdentifierType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public class IdentifierType
+    {
         [XmlElement("envelope_to", Form = XmlSchemaForm.Unqualified)]
         public string EnvelopeTo { get; set; }
 
         [XmlElement("header_from", Form = XmlSchemaForm.Unqualified)]
         public string HeaderFrom { get; set; }
-        
+
         [XmlElement("envelope_from", Form = XmlSchemaForm.Unqualified)]
         public string EnvelopeFrom { get; set; }
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public class PolicyOverrideReason {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public class PolicyOverrideReason
+    {
         [XmlElement("type", Form = XmlSchemaForm.Unqualified)]
         public PolicyOverrideType Type { get; set; }
 
@@ -164,19 +176,23 @@ namespace DmarcRua
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public enum PolicyOverrideType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public enum PolicyOverrideType
+    {
         forwarded,
         sampled_out,
         trusted_forwarder,
         mailing_list,
         local_policy,
-        other
+        other,
+        none,
+        [XmlEnum("")] Default = none
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public class PolicyEvaluatedType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public class PolicyEvaluatedType
+    {
         [XmlElement("disposition", Form = XmlSchemaForm.Unqualified)]
         public DispositionType Disposition { get; set; }
 
@@ -191,24 +207,29 @@ namespace DmarcRua
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public enum DispositionType {
-        [XmlEnum("none")]none,
-        [XmlEnum("quarantine")]quarantine,
-        [XmlEnum("reject")]reject,
-        [XmlEnum("")]Default = none
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public enum DispositionType
+    {
+        [XmlEnum("none")] none,
+        [XmlEnum("quarantine")] quarantine,
+        [XmlEnum("reject")] reject,
+        [XmlEnum("")] Default = none
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public enum DMARCResultType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public enum DMARCResultType
+    {
         pass,
-        fail
+        fail,
+        none,
+        [XmlEnum("")] Default = none
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public class RowType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public class RowType
+    {
         [XmlElement("source_ip", Form = XmlSchemaForm.Unqualified)]
         public string SourceIp { get; set; }
 
@@ -220,8 +241,9 @@ namespace DmarcRua
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public class RecordType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public class RecordType
+    {
         [XmlElement("row", Form = XmlSchemaForm.Unqualified)]
         public RowType Row { get; set; }
 
@@ -233,8 +255,9 @@ namespace DmarcRua
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public class PolicyPublishedType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public class PolicyPublishedType
+    {
 
         [XmlElement("domain", Form = XmlSchemaForm.Unqualified)]
         public string Domain { get; set; }
@@ -255,10 +278,10 @@ namespace DmarcRua
 
         [XmlElement("pct", Form = XmlSchemaForm.Unqualified)]
         public string Percent { get; set; }
-        
+
         [XmlElement("fo", Form = XmlSchemaForm.Unqualified)]
         public string Fo { get; set; }
-        
+
         [XmlElement("ri", Form = XmlSchemaForm.Unqualified)]
         public int Ri { get; set; }
         [XmlElement("rua", Form = XmlSchemaForm.Unqualified)]
@@ -272,8 +295,9 @@ namespace DmarcRua
     }
 
     [Serializable]
-    [XmlType(Namespace="http://dmarc.org/dmarc-xml/0.1")]
-    public enum AlignmentType {
+    [XmlType(Namespace = "http://dmarc.org/dmarc-xml/0.1")]
+    public enum AlignmentType
+    {
         r,
         s
     }
