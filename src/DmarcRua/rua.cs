@@ -352,39 +352,14 @@ namespace DmarcRua
         [JsonPropertyName("adkim")]
         public string AdkimRaw { get; set; }
 
+        public AlignmentType? Adkim => AdkimRaw.AlignmentTypeFromString();
+
         [XmlElement("aspf", Form = XmlSchemaForm.Unqualified)]
         [JsonPropertyName("aspf")]
         public string AspfRaw { get; set; }
 
-        [XmlIgnore]
-        public AlignmentType? Aspf
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(AspfRaw))
-                    return null;
+        public AlignmentType? Aspf => AspfRaw.AlignmentTypeFromString();
 
-                var cleaned = ValidationFunctions.CleanText(AspfRaw);
-                return cleaned == "r" ? AlignmentType.Relaxed :
-                       cleaned == "s" ? AlignmentType.Strict :
-                       throw new InvalidOperationException($"Unexpected aspf value: {AspfRaw}");
-            }
-        }
-
-        [XmlIgnore]
-        public AlignmentType? Adkim
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(AdkimRaw))
-                    return null;
-                // Remove non-alphanumeric characters
-                var cleaned = ValidationFunctions.CleanText(AdkimRaw);
-                return cleaned == "r" ? AlignmentType.Relaxed :
-                       cleaned == "s" ? AlignmentType.Strict :
-                       throw new InvalidOperationException($"Unexpected adkim value: {AdkimRaw}");
-            }
-        }
 
         [XmlElement("p", Form = XmlSchemaForm.Unqualified)]
         [JsonPropertyName("p")]
@@ -456,12 +431,28 @@ namespace DmarcRua
         public string[] JsonAny { get; set; }
     }
 
+
     internal static class ValidationFunctions
     {
-        internal static string CleanText(string text)
+        internal static AlignmentType? AlignmentTypeFromString(this string alignmentType)
         {
-            return System.Text.RegularExpressions.Regex.Replace(text, "[^a-z0-9]", "");
+            switch (alignmentType.CleanOutStringSpecials())
+            {
+                case "r":
+                    return AlignmentType.Relaxed;
+                case "s":
+                    return AlignmentType.Strict;
+                default:
+                    return null;
+            }
+        }
+
+        internal static string CleanOutStringSpecials(this string input)
+        {
+            input = input?.Trim().ToLower();
+            // Clean out any special characters from the string. 
+            return System.Text.RegularExpressions.Regex.Replace(input, "[^a-z0-9]", "");
+
         }
     }
-
 }
